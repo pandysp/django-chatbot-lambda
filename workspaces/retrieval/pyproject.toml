@@ -9,6 +9,7 @@ packages = [{include = "namespace", from = "src"}]
 python = "^3.12"
 black = "^24.3.0"
 ruff = "^0.3.5"
+django = "^5.0.4"
 
 [build-system]
 requires = ["poetry-core"]

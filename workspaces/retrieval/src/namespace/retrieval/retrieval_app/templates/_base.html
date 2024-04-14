@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Django Chatbot{% endblock %}</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.11"
+      integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/head-support.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css" />
+    {% block additional_head %} {% endblock %}
+  </head>
+  <body>
+    {% block content %} {% endblock %}
+  </body>
+</html>

@@ -7,9 +7,10 @@ packages = [{include = "namespace", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-black = "^24.3.0"
-ruff = "^0.3.5"
+black = "^24.4.0"
+ruff = "^0.3.7"
 django = "^5.0.4"
+uvicorn = "^0.29.0"
 
 [build-system]
 requires = ["poetry-core"]

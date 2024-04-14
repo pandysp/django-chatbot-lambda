@@ -1,0 +1,1 @@
+# Django Chatbot with Response Streaming using OpenAI, Langchain and HTMX, deployed to AWS Lambda

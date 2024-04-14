@@ -8,6 +8,7 @@ RUN apt-get update && \
 
 RUN pip install poetry
 COPY pyproject.toml poetry.lock* ./
+
 RUN mkdir -p ./src/namespace
 RUN touch ./src/namespace/__init__.py
 
@@ -16,4 +17,4 @@ RUN poetry config virtualenvs.create false && \
 
 COPY . .
 
-# TODO: Run the application
+CMD ["uvicorn", "--app-dir=./src/namespace/retrieval" "retrieval.asgi:application", "--host", "0.0.0.0", "--port", "8080"]

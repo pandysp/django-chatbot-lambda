@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+{% block title %}Django Chatbot{% endblock %}
+{% block additional_head %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+<div class='message from-user'>{{ user_input }}</div>
+<div class='message from-bot'>{{ answer }}</div>
+{% endblock %}

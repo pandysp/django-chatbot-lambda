@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+{% block title %}Django Chatbot{% endblock %}
+{% block additional_head %}
+<style>
+</style>
+{% endblock %}
+{% block content %}
+<h2>Welcome! Ask a question below:</h2>
+<div id="chat-container">
+  <div class="message-thread">
+    <!-- Messages will be dynamically inserted here -->
+  </div>
+</div>
+<form class="input-form" hx-post="/answer/" hx-target="#chat-container" hx-swap="afterend">
+    <input type="text" name="user-input" placeholder="Type your message here..." required />
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <button type="submit">Send</button>
+</form>
+{% endblock %}

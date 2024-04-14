@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+PROJECT_DIR = Path(__file__).resolve().parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -55,7 +55,12 @@ ROOT_URLCONF = "retrieval.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": [BASE_DIR / "templates"],
+        # This is for central templates across all apps
+        # In apps Jinja templates must always be within "jinja2" directories
+        "DIRS": [PROJECT_DIR / "jinja2"],
+        "OPTIONS": {
+            "environment": "retrieval.jinja2.environment",
+        },
         "APP_DIRS": True,
     },
     {

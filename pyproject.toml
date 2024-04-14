@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "django-chatbot-response-streaming"
+version = "0.1.0"
+description = ""
+authors = ["Andreas Spannagel <spannagel.andreas@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.group.main.dependencies]
+python = "^3.12"
+black = "^24.3.0"
+ruff = "^0.3.5"
+aws-cdk-lib = "2.137.0"
+constructs = ">=10.0.0,<11.0.0"
+pytest = "^8.1.1"
+
+[tool.poetry.group.retrieval.dependencies]
+namespace-retrieval = { path = "workspaces/retrieval", develop = true }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+exclude = [".venv"]

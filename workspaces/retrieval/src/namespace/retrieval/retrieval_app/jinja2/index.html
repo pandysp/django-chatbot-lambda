@@ -1,8 +1,7 @@
 {% extends "_base.html" %}
 {% block title %}Django Chatbot{% endblock %}
 {% block additional_head %}
-<style>
-</style>
+<style></style>
 {% endblock %}
 {% block content %}
 <h2>Welcome! Ask a question below:</h2>
@@ -11,9 +10,62 @@
     <!-- Messages will be dynamically inserted here -->
   </div>
 </div>
-<form class="input-form" hx-post="/answer/" hx-target="#chat-container" hx-swap="afterend">
-    <input type="text" name="query" placeholder="Type your message here..." required />
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    <button type="submit">Send</button>
+<form id="input-form" class="input-form">
+  <input
+    type="text"
+    name="query"
+    placeholder="Type your message here..."
+    required
+  />
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+  <button type="submit">Send</button>
 </form>
+<script>
+  document
+    .getElementById("input-form")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+
+      const url = '/answer/';
+      const formData = new FormData(this); // `this` refers to the form
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": formData.get("csrfmiddlewaretoken"), // Get CSRF token from form
+        },
+        body: JSON.stringify({
+          query: formData.get("query"), // Get user input from the form
+        }),
+      });
+      
+
+      // Assuming the server sends newline-delimited JSON (NDJSON)
+      const reader = response.body.getReader();
+      let { value: chunk, done: readerDone } = await reader.read();
+      let decoder = new TextDecoder("utf-8");
+
+      while (!readerDone) {
+        const chunkText = decoder.decode(chunk, { stream: true });
+
+        // Use HTMX to update the DOM
+        htmx.trigger("#chat-container", "htmx:updateContent", {
+          value: chunkText,
+        });
+
+        // Read the next chunk
+        const result = await reader.read();
+        chunk = result.value;
+        readerDone = result.done;
+      }
+      if (readerDone) {
+        reader.releaseLock();
+      }
+    });
+  document.body.addEventListener("htmx:updateContent", (event) => {
+    const target = document.querySelector("#chat-container");
+    target.innerHTML += event.detail.value;
+  });
+</script>
 {% endblock %}

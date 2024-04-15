@@ -33,7 +33,6 @@ block additional_head %}
       body: formData,
     });
 
-    // Assuming the server sends newline-delimited JSON (NDJSON)
     const reader = response.body.getReader();
     let { value: chunk, done: readerDone } = await reader.read();
     let decoder = new TextDecoder("utf-8");
@@ -41,7 +40,6 @@ block additional_head %}
     while (!readerDone) {
       const chunkText = decoder.decode(chunk, { stream: true });
 
-      // Use HTMX to update the DOM
       htmx.trigger("#chat-container", "updateContent", {
         value: chunkText,
       });

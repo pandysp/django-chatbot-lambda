@@ -7,7 +7,7 @@ from .utils import fetch_secret
 
 @register()
 def check_openai_key(app_configs, **kwargs):
-    key = fetch_secret("/django/openai-key")
+    key = fetch_secret("/django-chatbot/openai-api-key")
     if not key:
         return [
             Error(

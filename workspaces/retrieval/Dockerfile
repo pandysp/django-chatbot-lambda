@@ -6,6 +6,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+ENV DJANGO_ENV=production
+
 RUN pip install poetry
 COPY pyproject.toml poetry.lock* ./
 
@@ -16,7 +18,5 @@ RUN poetry config virtualenvs.create false && \
     poetry install --only main
 
 COPY . .
-
-ENV DJANGO_ENV=production
 
 CMD ["uvicorn", "--app-dir=./src/namespace/retrieval", "retrieval.asgi:application", "--host", "0.0.0.0", "--port", "8080"]

@@ -10,6 +10,9 @@ init: .clean-venv .venv
 start-server: .venv
 	uvicorn --app-dir=./workspaces/retrieval/src/namespace/retrieval retrieval.asgi:application --reload --reload-include './*.html'
 
+check-deploy: .venv
+	DJANGO_ENV=production poetry run python workspaces/retrieval/src/namespace/retrieval/manage.py check --deploy
+
 docker-build:
 	docker buildx build --platform linux/arm64 -t lambda-retrieval workspaces/retrieval/
 

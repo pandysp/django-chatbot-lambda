@@ -4,6 +4,9 @@ import aws_cdk as cdk
 from aws_cdk import Duration, Stack
 from aws_cdk import aws_ecr_assets as ecr_assets
 from aws_cdk import (
+    aws_iam as iam,
+)
+from aws_cdk import (
     aws_lambda as lambda_,
 )
 from constructs import Construct
@@ -28,6 +31,16 @@ class DjangoChatbotStack(Stack):
             environment={
                 "AWS_LWA_INVOKE_MODE": lambda_.InvokeMode.RESPONSE_STREAM.value
             },
+        )
+
+        django_query_handler.add_to_role_policy(
+            statement=iam.PolicyStatement(
+                actions=["ssm:GetParameter"],
+                resources=[
+                    f"arn:aws:ssm:{self.region}:{self.account}:parameter/django-chatbot/openai-api-key",
+                    f"arn:aws:ssm:{self.region}:{self.account}:parameter/django-chatbot/secret-key",
+                ],
+            )
         )
 
         function_url = django_query_handler.add_function_url(

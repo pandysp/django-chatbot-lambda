@@ -18,7 +18,7 @@ def fetch_secret(name: str) -> str | None:
 
 def set_api_key() -> None:
     try:
-        key = fetch_secret("/django/openai-key")
+        key = fetch_secret("/django-chatbot/openai-api-key")
         if key:
             os.environ["OPENAI_API_KEY"] = key
         else:

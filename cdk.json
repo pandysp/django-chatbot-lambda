@@ -1,0 +1,27 @@
+{
+  "app": "python3 app.py",
+  "watch": {
+    "include": ["**"],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "requirements*.txt",
+      "pyproject.toml",
+      "poetry.lock",
+      "source.bat",
+      "**/__init__.py",
+      "python/__pycache__",
+      "tests",
+      "workspaces/ingestion",
+      "workspaces/evaluation",
+      "workspaces/assistant"
+    ]
+  },
+  "context": {
+    "aws-cdk:enableDiffNoFail": "true",
+    "versionReporting": false,
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/aws-lambda:recognizeLayerVersion": true
+  }
+}

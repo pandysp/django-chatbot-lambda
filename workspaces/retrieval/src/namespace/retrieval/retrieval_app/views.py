@@ -1,7 +1,8 @@
-from django.http import StreamingHttpResponse
 import httpx
 import openai
+from django.http import StreamingHttpResponse
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 
 OPENAI_MODEL_NAME = "gpt-3.5-turbo-0125"  # gpt-4-turbo-2024-04-09
 MODEL_TEMPERATURE = 0.5
@@ -13,6 +14,7 @@ async def index(request):
     return render(request, "index.html")
 
 
+@require_http_methods(["POST"])
 async def answer(request):
     query = request.POST.get("query")
 

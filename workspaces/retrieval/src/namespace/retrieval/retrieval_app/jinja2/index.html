@@ -28,12 +28,9 @@ block additional_head %}
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "X-CSRFToken": formData.get("csrfmiddlewaretoken"), // Get CSRF token from form
       },
-      body: JSON.stringify({
-        query: formData.get("query"), // Get user input from the form
-      }),
+      body: formData,
     });
 
     // Assuming the server sends newline-delimited JSON (NDJSON)
@@ -45,7 +42,7 @@ block additional_head %}
       const chunkText = decoder.decode(chunk, { stream: true });
 
       // Use HTMX to update the DOM
-      htmx.trigger("#chat-container", "htmx:updateContent", {
+      htmx.trigger("#chat-container", "updateContent", {
         value: chunkText,
       });
 
@@ -59,7 +56,7 @@ block additional_head %}
     }
   });
 
-  htmx.on("htmx:updateContent", (event) => {
+  htmx.on("updateContent", (event) => {
     const target = document.querySelector("#chat-container");
     target.innerHTML += event.detail.value;
   });
